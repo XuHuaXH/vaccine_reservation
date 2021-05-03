@@ -46,13 +46,30 @@ class ProviderSerializer(serializers.ModelSerializer):
         fields = ['provider_name', 'provider_address', 'provider_phone', 'provider_type']
 
 
-class AppointmentSerializer(serializers.ModelSerializer):
+class AddAppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Appointment
         fields = ['date', 'timeslot', 'capacity']
+
+
+class GetAppointmentSerializer(serializers.ModelSerializer):
+    provider = ProviderSerializer()
+
+    class Meta:
+        model = Appointment
+        fields = ['provider', 'date', 'timeslot', 'capacity']
 
 
 class AddOfferHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = OfferHistory
         fields = ['appointment', 'patient', 'sent_datetime']
+
+
+class GetOfferHistorySerializer(serializers.ModelSerializer):
+    appointment = GetAppointmentSerializer()
+
+    class Meta:
+        model = OfferHistory
+        fields = ['id', 'appointment', 'patient', 'sent_datetime', 'expiration_datetime',
+                  'response_datetime', 'cancellation_datetime', 'accepted', 'status']
