@@ -10,7 +10,7 @@ class PriorityGroup(models.Model):
 
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    patient_name = models.CharField(max_length=255)
+    # patient_name = models.CharField(max_length=255)
     ssn = models.CharField(max_length=20)
     dob = models.DateField()
     patient_address = models.CharField(max_length=255)
@@ -37,7 +37,7 @@ class PatientPreferredTime(models.Model):
 class Provider(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     provider_name = models.CharField(max_length=255)
-    patient_address = models.CharField(max_length=255)
+    provider_address = models.CharField(max_length=255)
     provider_lat = models.FloatField()
     provider_long = models.FloatField()
     provider_phone = models.CharField(blank=True, max_length=20)
@@ -58,8 +58,9 @@ class OfferHistory(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     sent_datetime = models.DateTimeField()
     expiration_datetime = models.DateTimeField()
-    response_datetime = models.DateTimeField()
-    accept = models.BooleanField()
+    response_datetime = models.DateTimeField(null=True)
+    cancellation_datetime = models.DateTimeField(null=True)
+    accepted = models.BooleanField(null=True)
 
     CHOICES = [
         ('cancelled', 'Cancelled'),
@@ -67,4 +68,4 @@ class OfferHistory(models.Model):
         ('completed', 'Completed'),
         ('scheduled', 'Scheduled')
     ]
-    status = models.CharField(max_length=225, choices=CHOICES)
+    status = models.CharField(max_length=225, null=True, choices=CHOICES)
