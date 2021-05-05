@@ -38,10 +38,10 @@ def register_patient(request):
         return Response(data=patient_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # generate random geo coordinates ;)
-    lat_min = -75.64535551802206
-    lat_max = -71.86605890041902
-    long_min = 38.974489
-    long_max = 43.486928
+    long_min = -75.64535551802206
+    long_max = -71.86605890041902
+    lat_min = 38.974489
+    lat_max = 43.486928
     lat = lat_min + (lat_max - lat_min) * random.random()
     long = long_min + (long_max - long_min) * random.random()
 
@@ -66,10 +66,10 @@ def register_provider(request):
         return Response(data=patient_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # generate random geo coordinates ;)
-    lat_min = -75.64535551802206
-    lat_max = -71.86605890041902
-    long_min = 38.974489
-    long_max = 43.486928
+    long_min = -75.64535551802206
+    long_max = -71.86605890041902
+    lat_min = 38.974489
+    lat_max = 43.486928
     lat = lat_min + (lat_max - lat_min) * random.random()
     long = long_min + (long_max - long_min) * random.random()
 
