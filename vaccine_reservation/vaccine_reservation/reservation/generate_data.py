@@ -38,7 +38,7 @@ def generate_patients(count):
         dob = '1950-03-05'
         address = rand_char(20)
         phone = rand_char(20)
-        max_distance = random.randint(5, 100)
+        max_distance = random.randint(30, 100)
         priority = PriorityGroup.objects.get(priority=random.randint(1, 2))
 
         # generate random geo coordinates ;)
