@@ -6,7 +6,7 @@ import AddAvailability from './AddAvailability.js';
 import axios from 'axios';
 import * as Constants from "./Constants.js";
 import { ChakraProvider } from "@chakra-ui/react"
-import { Button, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import { Heading, Center, Box, Flex, Button, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
 import { ColorModeProvider, ThemeProvider, CSSReset } from '@chakra-ui/react';
 import {
   Table,
@@ -154,8 +154,10 @@ class PatientPage extends React.Component {
 
 			  <TabPanels>
 			    <TabPanel>
-			      <p>Current Offers</p>
-				  <Table variant="simple">
+				<Heading as="h2" size="lg">
+					Current Offers
+				</Heading>
+				  <Table mt={4} variant="simple">
 					  <Thead>
 					    <Tr>
 					      <Th>Provider Name</Th>
@@ -185,8 +187,12 @@ class PatientPage extends React.Component {
 					  </Tbody>
 					</Table>
 
-					<p>Scheduled Offers</p>
-  				  <Table variant="simple">
+					<Box h='60px' />
+
+					<Heading as="h2" size="lg">
+    					Scheduled Offers
+    				</Heading>
+  				  <Table mt={4} variant="simple">
   					  <Thead>
   					    <Tr>
   					      <Th>Provider Name</Th>
@@ -211,8 +217,12 @@ class PatientPage extends React.Component {
   					  </Tbody>
   					</Table>
 
-					<p>Expired Offers</p>
-  				  <Table variant="simple">
+					<Box h='60px' />
+
+					<Heading as="h2" size="lg">
+						Expired Offers
+					</Heading>
+  				  <Table mt={4} variant="simple">
   					  <Thead>
   					    <Tr>
   					      <Th>Provider Name</Th>
@@ -233,8 +243,12 @@ class PatientPage extends React.Component {
   					  </Tbody>
   					</Table>
 
-					<p>Past Offers</p>
-  				  <Table variant="simple">
+					<Box h='60px' />
+
+					<Heading as="h2" size="lg">
+						Past Offers
+					</Heading>
+  				  <Table mt={4} variant="simple">
   					  <Thead>
   					    <Tr>
   					      <Th>Provider Name</Th>
@@ -257,8 +271,10 @@ class PatientPage extends React.Component {
 			    </TabPanel>
 			    <TabPanel>
 
-					<p>Availabilities</p>
-					<Table variant="simple">
+				<Heading as="h2" size="lg">
+					Availabilities
+				</Heading>
+					<Table mt={4} variant="simple">
 						<Thead>
 						  <Tr>
 							<Th>Day of week</Th>

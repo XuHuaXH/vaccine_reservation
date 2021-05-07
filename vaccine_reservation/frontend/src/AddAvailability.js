@@ -48,7 +48,7 @@ function AddAvailability(props) {
 
 	return (
 		<>
-	      <Button variantColor="teal" size="md" style={{float: 'left'}} onClick={onOpen}>Add Availability</Button>
+	      <Button mt={4} variantColor="teal" size="md" style={{float: 'left'}} onClick={onOpen}>Add Availability</Button>
 
 	      <Modal
 	        initialFocusRef={initialRef}

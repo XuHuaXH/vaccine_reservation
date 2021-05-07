@@ -6,7 +6,7 @@ import AddAppointment from './AddAppointment.js';
 import axios from 'axios';
 import * as Constants from "./Constants.js";
 import { ChakraProvider } from "@chakra-ui/react"
-import { Button, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import { Box, Heading, Button, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
 import { ColorModeProvider, ThemeProvider, CSSReset } from '@chakra-ui/react';
 import {
   Table,
@@ -103,8 +103,10 @@ class ProviderPage extends React.Component {
 
 			  <TabPanels>
 			    <TabPanel>
-			      <p>Scheduled Appointments</p>
-				  <Table variant="simple">
+				<Heading as="h2" size="lg">
+				  Scheduled Appointments
+			  </Heading>
+				  <Table mt={4} variant="simple">
 					  <Thead>
 					    <Tr>
 					      <Th>Patient Name</Th>
@@ -123,8 +125,12 @@ class ProviderPage extends React.Component {
 					  </Tbody>
 					</Table>
 
-					<p>Cancelled Appointments</p>
-  				  <Table variant="simple">
+					<Box h='60px' />
+
+					<Heading as="h2" size="lg">
+					  Cancelled Appointments
+				  </Heading>
+  				  <Table mt={4} variant="simple">
   					  <Thead>
   					    <Tr>
   					      <Th>Patient Name</Th>
@@ -142,9 +148,12 @@ class ProviderPage extends React.Component {
   						))}
   					  </Tbody>
   					</Table>
+					<Box h='60px' />
 
-					<p>Missed Appointments</p>
-  				  <Table variant="simple">
+					<Heading as="h2" size="lg">
+					  Missed Appointments
+				  </Heading>
+  				  <Table mt={4} variant="simple">
   					  <Thead>
   					    <Tr>
   					      <Th>Patient Name</Th>
@@ -162,9 +171,12 @@ class ProviderPage extends React.Component {
   						))}
   					  </Tbody>
   					</Table>
+					<Box h='60px' />
 
-					<p>Completed Appointments</p>
-  				  <Table variant="simple">
+					<Heading as="h2" size="lg">
+					  Completed Appointments
+				  </Heading>
+  				  <Table mt={4} variant="simple">
   					  <Thead>
   					    <Tr>
   					      <Th>Patient Name</Th>
@@ -187,8 +199,10 @@ class ProviderPage extends React.Component {
 			    </TabPanel>
 			    <TabPanel>
 
-					<p>Appointments</p>
-					<Table variant="simple">
+				<Heading as="h2" size="lg">
+				  Appointments
+			  </Heading>
+					<Table mt={4} variant="simple">
 						<Thead>
 						  <Tr>
 							<Th>Date</Th>

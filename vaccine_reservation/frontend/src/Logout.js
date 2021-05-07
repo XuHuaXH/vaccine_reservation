@@ -23,6 +23,8 @@ function Logout(props) {
 
 	return (
 		<Button
+		  my={3}
+		  mx={3}
 	      colorScheme='blue'
 	      onClick={() => onLogout()}
 	    >

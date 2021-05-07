@@ -50,7 +50,7 @@ function AddAppointment(props) {
 
 	return (
 		<>
-	      <Button colorScheme="blue" size="md" style={{float: 'left'}} onClick={onOpen}>Add Appointment</Button>
+	      <Button mt={4} colorScheme="blue" size="md" style={{float: 'left'}} onClick={onOpen}>Add Appointment</Button>
 
 	      <Modal
 	        initialFocusRef={initialRef}
