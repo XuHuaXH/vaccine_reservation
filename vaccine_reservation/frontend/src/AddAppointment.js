@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Input, Stack, Select, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Input, Stack, Select, useDisclosure } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -26,9 +26,41 @@ function AddAppointment(props) {
 	const initialRef = React.useRef();
     const [date, setDate] = useState('');
     const [timeslot, setTimeslot] = useState('');
-	const [capacity, setCapacity] = useState('');
+	const [capacity, setCapacity] = useState(0);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    function handleClose() {
+        setErrorMessage('');
+        onClose();
+    }
 
     function onSubmit() {
+
+        if (date === '') {
+            setErrorMessage("Date cannot be empty.");
+            return;
+        }
+
+        if (timeslot === '') {
+            setErrorMessage("Timeslot cannot be empty.");
+            return;
+        }
+
+        if (capacity === '') {
+            setErrorMessage("Capacity cannot be empty.");
+            return;
+        }
+
+        const dateFormat = /^\d{4}\-\d{2}\-\d{2}$/;
+        if (!dateFormat.test(date)) {
+            setErrorMessage("Date format must be YYYY-MM-DD");
+            return;
+        }
+
+        if (!Number.isInteger(Number(capacity)) || capacity <= 0) {
+            setErrorMessage("Capacity must be a positive integer.");
+            return;
+        }
 		const data = {
 			"date" : date,
 			"timeslot" : timeslot,
@@ -40,8 +72,6 @@ function AddAppointment(props) {
       			Authorization: "Token " + token
    			}
 		};
-        console.log(data);
-        console.log(header);
 		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/add-appointment/", data, header).then(function (response) {
             console.log(response.data);
 		}).then(onClose).then(props.reload);
@@ -90,6 +120,9 @@ function AddAppointment(props) {
 					onChange={(e)=>setCapacity(e.target.value)}
 					/>
 	            </FormControl>
+                <Box p={1} color="tomato">
+                    {errorMessage}
+                </Box>
 
 	          </ModalBody>
 
@@ -101,7 +134,7 @@ function AddAppointment(props) {
                 >
 	            	Submit
 	            </Button>
-	            <Button onClick={onClose}>Cancel</Button>
+	            <Button onClick={handleClose}>Cancel</Button>
 	          </ModalFooter>
 	        </ModalContent>
 	      </Modal>

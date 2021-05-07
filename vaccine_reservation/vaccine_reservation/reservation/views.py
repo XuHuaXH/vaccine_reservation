@@ -62,9 +62,9 @@ def register_provider(request):
         username=request.data['username'], email=request.data['email'], password=request.data['password'])
     user.save()
 
-    provider_serializer = ProviderSerializer(data=request.data)
+    provider_serializer = ProviderCreateSerializer(data=request.data)
     if not provider_serializer.is_valid():
-        return Response(data=patient_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=provider_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # generate random geo coordinates ;)
     long_min = -75.64535551802206
@@ -131,13 +131,13 @@ def add_availability(request):
     except Patient.DoesNotExist:
         return Response(data={'message': 'patient-only API'}, status=HTTP_403_FORBIDDEN)
 
+    serializer = PatientPreferredTimeSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(data=serializer.errors, status=HTTP_400_BAD_REQUEST)
+
     # validate field values
     if request.data['day_of_week'] not in days_of_week or request.data['timeslot'] not in timeslots:
         return Response(status=HTTP_400_BAD_REQUEST)
-
-    serializer = PatientPreferredTimeSerializer(data=request.data)
-    if not serializer.is_valid():
-        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # check if this entry already exists
     entries = PatientPreferredTime.objects.filter(
@@ -289,7 +289,7 @@ def patient_past_offers(request):
         return Response(data={'message': 'patient-only API'}, status=HTTP_403_FORBIDDEN)
 
     results = OfferHistory.objects.raw(
-        "select * from reservation_offerHistory join reservation_patient on reservation_offerHistory.patient_id = reservation_patient.id where reservation_patient.id = %s and not status='scheduled'", [patient.id])
+        "select * from reservation_offerHistory join reservation_patient on reservation_offerHistory.patient_id = reservation_patient.id where reservation_patient.id = %s and (not status='scheduled' or accepted = 0)", [patient.id])
     serializer = GetOfferHistorySerializer(results, many=True)
     return Response(serializer.data, status=HTTP_200_OK)
 
@@ -379,19 +379,18 @@ def offer_response(request):
     if datetime.now(timezone.utc) >= offer.expiration_datetime:
         return Response(data={'message': 'This offer has expired.'}, status=HTTP_403_FORBIDDEN)
 
-    # checking format of the request
-    if not request.data['id'] or not request.data['accepted']:
-        return Response(status=HTTP_400_BAD_REQUEST)
-
     # update offer
-    offer.accepted = request.data['accepted']
-    offer.response_datetime = datetime.now(timezone.utc)
-    if offer.accepted:
-        offer.status = 'scheduled'
-    offer.save()
+    try:
+        offer.accepted = request.data['accepted']
+        offer.response_datetime = datetime.now(timezone.utc)
+        if offer.accepted:
+            offer.status = 'scheduled'
+        offer.save()
 
-    serializer = GetOfferHistorySerializer(offer)
-    return Response(serializer.data, status=HTTP_200_OK)
+        serializer = GetOfferHistorySerializer(offer)
+        return Response(serializer.data, status=HTTP_200_OK)
+    except:
+        return Response(status=HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt
@@ -425,5 +424,26 @@ def provider_get_summary(request):
 
     data = {'scheduled': scheduled_count, 'cancelled': cancelled_count, 'missed': missed_count,
             'completed': completed_count, 'waiting_for_response': waiting_count}
-    print(data)
-    return Response(status=HTTP_200_OK)
+    return Response(data=data, status=HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def patient_info(request):
+    try:
+        patient = Patient.objects.get(user=request.user)
+    except Patient.DoesNotExist:
+        return Response(data={'message': 'patient-only API'}, status=HTTP_403_FORBIDDEN)
+    serializer = PatientPublicSerializer(patient)
+    return Response(serializer.data, status=HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def provider_info(request):
+    try:
+        provider = Provider.objects.get(user=request.user)
+    except Provider.DoesNotExist:
+        return Response(data={'message': 'provider-only API'}, status=HTTP_403_FORBIDDEN)
+    serializer = ProviderSerializer(provider)
+    return Response(serializer.data, status=HTTP_200_OK)

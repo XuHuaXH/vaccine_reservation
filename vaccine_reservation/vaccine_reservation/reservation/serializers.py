@@ -14,7 +14,8 @@ class PatientPublicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        fields = ['user']
+        fields = ['user', 'ssn',
+                  'dob', 'patient_address', 'patient_phone', 'max_distance']
 
 
 class PatientUserSerializer(serializers.ModelSerializer):
@@ -54,10 +55,18 @@ class PatientPreferredTimeSerializer(serializers.ModelSerializer):
         fields = ['day_of_week', 'timeslot']
 
 
-class ProviderSerializer(serializers.ModelSerializer):
+class ProviderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Provider
         fields = ['provider_name', 'provider_address', 'provider_phone', 'provider_type']
+
+
+class ProviderSerializer(serializers.ModelSerializer):
+    user = UserPublicSerializer()
+
+    class Meta:
+        model = Provider
+        fields = ['user', 'provider_name', 'provider_address', 'provider_phone', 'provider_type']
 
 
 class AddAppointmentSerializer(serializers.ModelSerializer):

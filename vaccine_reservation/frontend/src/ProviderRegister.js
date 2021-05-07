@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import PageRedirect from './PageRedirect.js';
 import { Box, Button, Input, useDisclosure } from "@chakra-ui/react";
 import {
   Modal,
@@ -101,6 +102,7 @@ function ProviderRegister(props) {
 		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/register-provider/", data).then(function (response) {
 			localStorage.setItem('token', response.data.token);
             console.log(response.data.token);
+            return(<PageRedirect  to="/provider-page" />);
 		}).then(handleClose).then(props.reload).catch((error) => {
             if (error.response.status != 201) {
                 setErrorMessage("An error occurred.")
@@ -208,7 +210,7 @@ function ProviderRegister(props) {
 	          <ModalFooter>
 	            <Button
                     onClick={onSubmit}
-                    variantColor="blue"
+                    variant="outline" color="gray.200"
                     mr={3}
                 >
 	            	Submit

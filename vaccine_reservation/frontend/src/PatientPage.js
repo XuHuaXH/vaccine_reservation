@@ -2,6 +2,8 @@ import React from 'react';
 import './App.css';
 import Entry from './Entry.js';
 import Logout from './Logout.js';
+import OfferDetails from './OfferDetails.js';
+import PatientProfile from './PatientProfile.js';
 import AddAvailability from './AddAvailability.js';
 import axios from 'axios';
 import * as Constants from "./Constants.js";
@@ -149,6 +151,7 @@ class PatientPage extends React.Component {
 			  <TabList>
 			    <Tab>Dashboard</Tab>
 			    <Tab>Settings</Tab>
+				<Tab>Profile</Tab>
 				<Logout />
 			  </TabList>
 
@@ -164,7 +167,7 @@ class PatientPage extends React.Component {
 					      <Th>Appointment Date</Th>
 						  <Th>Appointment Time</Th>
 						  <Th>Offer Expires</Th>
-						  <Th>Action</Th>
+						  <Th>Actions</Th>
 					    </Tr>
 					  </Thead>
 					  <Tbody>
@@ -175,6 +178,7 @@ class PatientPage extends React.Component {
 						      <Td>{offer.appointment.timeslot}</Td>
 							  <Td>{offer.expiration_datetime}</Td>
 							  <Td>
+							    <OfferDetails offer={offer}/>
 							  	<Button onClick={() => this.onAccept(offer.id)} colorScheme="blue" mr={3}>
 			  	            	Accept
 			  	            	</Button>
@@ -208,6 +212,7 @@ class PatientPage extends React.Component {
   						      <Td>{offer.appointment.date}</Td>
   						      <Td>{offer.appointment.timeslot}</Td>
 							  <Td>
+							    <OfferDetails offer={offer}/>
 								<Button onClick={() => this.onCancel(offer.id)} colorScheme="red" mr={3}>
 			  	            	Cancel
 			  	            	</Button>
@@ -254,7 +259,8 @@ class PatientPage extends React.Component {
   					      <Th>Provider Name</Th>
   					      <Th>Appointment Date</Th>
   						  <Th>Appointment Time</Th>
-  						  <Th>status</Th>
+						  <Th>Response</Th>
+  						  <Th>Status</Th>
   					    </Tr>
   					  </Thead>
   					  <Tbody>
@@ -263,7 +269,8 @@ class PatientPage extends React.Component {
   						      <Td>{offer.appointment.provider.provider_name}</Td>
   						      <Td>{offer.appointment.date}</Td>
   						      <Td>{offer.appointment.timeslot}</Td>
-  							  <Td>{offer.status}</Td>
+							  <Td>{offer.accepted ? 'Accepted' : 'Declined'}</Td>
+  							  <Td>{offer.accepted ? offer.status : 'Declined'}</Td>
   						    </Tr>
   						))}
   					  </Tbody>
@@ -303,6 +310,10 @@ class PatientPage extends React.Component {
   					/>
 
 			    </TabPanel>
+
+				<TabPanel>
+					<PatientProfile />
+				</TabPanel>
 			  </TabPanels>
 			</Tabs>
 	    );

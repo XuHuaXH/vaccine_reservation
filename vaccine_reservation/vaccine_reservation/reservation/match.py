@@ -2,13 +2,13 @@ from reservation.models import *
 from django.db import connection
 import collections
 import copy
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, date
 
 
-# return all the patients who have not been vacinnated and do not have an appointment scheduled
+# return all the patients who have not been vacinnated and do not have an appointment scheduled, and do not have an unexpired unresponded offer
 def get_waiting_patients():
     not_waiting = Patient.objects.raw(
-        "select * from reservation_patient join reservation_offerhistory on reservation_patient.id = reservation_offerhistory.patient_id where status='completed' or status='scheduled'")
+        "select reservation_patient.id from reservation_patient join reservation_offerhistory on reservation_patient.id = reservation_offerhistory.patient_id where (reservation_offerHistory.response_datetime is NULL and reservation_offerhistory.expiration_datetime > NOW()) or status='completed' or status='scheduled'")
     record = set(())
     for p in not_waiting:
         record.add(p)
@@ -48,7 +48,7 @@ class FFSolver:
         # 4. the appointment has not reached its capacity
         with connection.cursor() as cursor:
             cursor.execute(
-                "select reservation_patient.id as patient_id, reservation_appointment.id as appointment_id from reservation_patient join reservation_prioritygroup on reservation_patient.priority_id = reservation_prioritygroup.id join reservation_patientpreferredtime on reservation_patient.id = reservation_patientpreferredtime.patient_id join reservation_appointment on reservation_patientpreferredtime.timeslot = reservation_appointment.timeslot and reservation_patientpreferredtime.day_of_week = DAYNAME(reservation_appointment.date) join reservation_provider on reservation_provider.id = reservation_appointment.provider_id where reservation_prioritygroup.priority = %s and ST_Distance_Sphere(point(patient_long, patient_lat), point(provider_long, provider_lat)) * .000621371192 <= reservation_patient.max_distance and reservation_patient.id not in (select reservation_patient.id from reservation_patient join reservation_offerhistory on reservation_patient.id = reservation_offerhistory.patient_id where reservation_offerHistory.response_datetime is NULL or status='completed' or status='scheduled') and reservation_appointment.id in (select id from (select reservation_appointment.id, reservation_appointment.capacity from reservation_appointment join reservation_offerhistory on reservation_appointment.id = reservation_offerhistory.appointment_id where reservation_offerhistory.status = 'completed' or reservation_offerhistory.status='scheduled' group by reservation_appointment.id having count(*) < reservation_appointment.capacity union select reservation_appointment.id, reservation_appointment.capacity from reservation_appointment where reservation_appointment.id not in (select reservation_offerhistory.appointment_id from reservation_offerhistory) ) d1)", [priority])
+                "select reservation_patient.id as patient_id, reservation_appointment.id as appointment_id from reservation_patient join reservation_prioritygroup on reservation_patient.priority_id = reservation_prioritygroup.id join reservation_patientpreferredtime on reservation_patient.id = reservation_patientpreferredtime.patient_id join reservation_appointment on reservation_patientpreferredtime.timeslot = reservation_appointment.timeslot and reservation_patientpreferredtime.day_of_week = DAYNAME(reservation_appointment.date) join reservation_provider on reservation_provider.id = reservation_appointment.provider_id where reservation_prioritygroup.priority = %s and ST_Distance_Sphere(point(patient_long, patient_lat), point(provider_long, provider_lat)) * .000621371192 <= reservation_patient.max_distance and reservation_patient.id not in (select reservation_patient.id from reservation_patient join reservation_offerhistory on reservation_patient.id = reservation_offerhistory.patient_id where (reservation_offerHistory.response_datetime is NULL and reservation_offerhistory.expiration_datetime > NOW()) or status='completed' or status='scheduled') and reservation_appointment.id in (select id from (select reservation_appointment.id, reservation_appointment.capacity from reservation_appointment join reservation_offerhistory on reservation_appointment.id = reservation_offerhistory.appointment_id where reservation_offerhistory.status = 'completed' or reservation_offerhistory.status='scheduled' group by reservation_appointment.id having count(*) < reservation_appointment.capacity union select reservation_appointment.id, reservation_appointment.capacity from reservation_appointment where reservation_appointment.id not in (select reservation_offerhistory.appointment_id from reservation_offerhistory) ) d1)", [priority])
             edges = cursor.fetchall()
             for row in cursor.fetchall():
                 print(row)
@@ -156,6 +156,8 @@ class FFSolver:
 def match():
     priorities = PriorityGroup.objects.order_by('priority')
     for i in priorities:
+        if date.today() < i.earliest_date:
+            continue
         print('matching patients of priority ' + str(i.priority))
         solver = FFSolver(priority=i.priority)
         max_flow = solver.edmonds_karp()

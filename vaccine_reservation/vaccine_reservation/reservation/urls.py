@@ -23,4 +23,6 @@ urlpatterns = [
     path('offer-response/', views.offer_response),
     path('provider-get-summary/', views.provider_get_summary),
     path('logout/', views.logout),
+    path('patient-info/', views.patient_info),
+    path('provider-info/', views.provider_info),
 ]

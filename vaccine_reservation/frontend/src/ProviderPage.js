@@ -2,11 +2,12 @@ import React from 'react';
 import './App.css';
 import Entry from './Entry.js';
 import Logout from './Logout.js';
+import ProviderProfile from './ProviderProfile.js';
 import AddAppointment from './AddAppointment.js';
 import axios from 'axios';
 import * as Constants from "./Constants.js";
 import { ChakraProvider } from "@chakra-ui/react"
-import { Box, Heading, Button, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
+import { HStack,Container, Box, Heading, Button, Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react"
 import { ColorModeProvider, ThemeProvider, CSSReset } from '@chakra-ui/react';
 import {
   Table,
@@ -18,6 +19,14 @@ import {
   Td,
   TableCaption,
 } from "@chakra-ui/react";
+import {
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  StatArrow,
+  StatGroup,
+} from "@chakra-ui/react"
 import {Redirect} from 'react-router-dom';
 
 
@@ -98,11 +107,42 @@ class ProviderPage extends React.Component {
 			  <TabList w='100%'>
 			    <Tab>Dashboard</Tab>
 			    <Tab>Settings</Tab>
+				<Tab>Profile</Tab>
 				<Logout />
 			  </TabList>
 
 			  <TabPanels>
 			    <TabPanel>
+				<HStack mt={4} spacing="24px">
+				<Stat>
+				  <StatLabel>Scheduled</StatLabel>
+				  <StatNumber>{this.state.summary.scheduled}</StatNumber>
+				  <StatHelpText># of scheduled appointments</StatHelpText>
+				</Stat>
+				<Stat>
+				  <StatLabel>Missed</StatLabel>
+				  <StatNumber>{this.state.summary.missed}</StatNumber>
+				  <StatHelpText># of missed appointments</StatHelpText>
+				</Stat>
+				<Stat>
+				  <StatLabel>Cancelled</StatLabel>
+				  <StatNumber>{this.state.summary.cancelled}</StatNumber>
+				  <StatHelpText># of cancelled appointments</StatHelpText>
+				</Stat>
+				<Stat>
+				  <StatLabel>Completed</StatLabel>
+				  <StatNumber>{this.state.summary.completed}</StatNumber>
+				  <StatHelpText># of completed appointments</StatHelpText>
+				</Stat>
+				<Stat>
+				  <StatLabel>Waiting</StatLabel>
+				  <StatNumber>{this.state.summary.waiting_for_response}</StatNumber>
+				  <StatHelpText># of appointments waiting for response</StatHelpText>
+				</Stat>
+				</HStack>
+
+				<Box h='50px' />
+
 				<Heading as="h2" size="lg">
 				  Scheduled Appointments
 			  </Heading>
@@ -228,6 +268,10 @@ class ProviderPage extends React.Component {
 
 
 			    </TabPanel>
+
+				<TabPanel>
+					<ProviderProfile />
+				</TabPanel>
 			  </TabPanels>
 			</Tabs>
 	    );

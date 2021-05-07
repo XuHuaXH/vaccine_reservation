@@ -28,6 +28,7 @@ function AddAvailability(props) {
     const [timeslot, setTimeslot] = useState('');
 
     function onSubmit() {
+
 		const data = {
 			"day_of_week" : day_of_week,
 			"timeslot" : timeslot,
@@ -38,8 +39,6 @@ function AddAvailability(props) {
       			Authorization: "Token " + token
    			}
 		};
-        console.log(data);
-        console.log(header);
 		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/add-availability/", data, header).then(function (response) {
             console.log(response.data);
 		}).then(onClose).then(props.reload);

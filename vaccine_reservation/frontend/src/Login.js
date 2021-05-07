@@ -36,6 +36,17 @@ function Login(props) {
     }
 	function onSubmit() {
 
+        // check if all fields are filled
+        if (username === '') {
+            setErrorMessage("Username cannot be empty.");
+            return;
+        }
+
+        if (password === '') {
+            setErrorMessage("Password cannot be empty.");
+            return;
+        }
+
 		const data = {
 			"username" : username,
 			"password" : password
@@ -95,7 +106,7 @@ function Login(props) {
 	          </ModalBody>
 
 	          <ModalFooter>
-	            <Button onClick={onSubmit} variantColor="blue" mr={3}>
+	            <Button onClick={onSubmit} variant="outline" color="gray.200" mr={3}>
 	            	Submit
 	            </Button>
 	            <Button variant="outline" color="gray.200" onClick={handleClose}>Cancel</Button>

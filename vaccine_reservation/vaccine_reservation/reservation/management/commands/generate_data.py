@@ -12,5 +12,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         generate_patients(300)
-        generate_providers(10)
+        generate_providers(20)
         self.stdout.write(self.style.SUCCESS('Successfully generated some data!'))
