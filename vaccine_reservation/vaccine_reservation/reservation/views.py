@@ -10,6 +10,7 @@ from reservation.serializers import *
 from reservation.options import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout
+from rest_framework.authtoken.models import Token
 from django.db import connection
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -89,15 +90,24 @@ def login(request):
     user = authenticate(username=username, password=password)
     if not user:
         return Response({'error': 'Invalid Credentials'}, status=HTTP_404_NOT_FOUND)
+
+    # determine if user is a patient or a provider
+    type = ''
+    try:
+        patient = Patient.objects.get(user=user)
+        type = 'patient'
+    except Patient.DoesNotExist:
+        type = 'provider'
     token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key},
+    return Response({'token': token.key, 'type': type},
                     status=HTTP_200_OK)
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def logout(request):
-    logout(request)
+    token = Token.objects.get(user=request.user)
+    token.delete()
     return Response(status=HTTP_200_OK)
 
 
@@ -166,7 +176,9 @@ def get_appointments(request):
         provider = Provider.objects.get(user=request.user)
     except Provider.DoesNotExist:
         return Response(data={'message': 'provider-only API'}, status=HTTP_403_FORBIDDEN)
-    # TODO
+    appointments = Appointment.objects.filter(provider_id=provider.id)
+    serializer = GetAppointmentSerializer(appointments, many=True)
+    return Response(serializer.data, status=HTTP_200_OK)
 
 
 @csrf_exempt
@@ -249,7 +261,21 @@ def patient_current_offers(request):
         return Response(data={'message': 'patient-only API'}, status=HTTP_403_FORBIDDEN)
 
     results = OfferHistory.objects.raw(
-        "select * from reservation_offerHistory join reservation_patient on reservation_offerHistory.patient_id = reservation_patient.id where reservation_patient.id = %s and accepted is NULL", [patient.id])
+        "select * from reservation_offerHistory join reservation_patient on reservation_offerHistory.patient_id = reservation_patient.id where reservation_patient.id = %s and accepted is NULL and reservation_offerHistory.expiration_datetime > NOW()", [patient.id])
+    serializer = GetOfferHistorySerializer(results, many=True)
+    return Response(serializer.data, status=HTTP_200_OK)
+
+
+@csrf_exempt
+@api_view(["GET"])
+def patient_expired_offers(request):
+    try:
+        patient = Patient.objects.get(user=request.user)
+    except Patient.DoesNotExist:
+        return Response(data={'message': 'patient-only API'}, status=HTTP_403_FORBIDDEN)
+
+    results = OfferHistory.objects.raw(
+        "select * from reservation_offerHistory join reservation_patient on reservation_offerHistory.patient_id = reservation_patient.id where reservation_patient.id = %s and accepted is NULL and reservation_offerHistory.expiration_datetime <= NOW()", [patient.id])
     serializer = GetOfferHistorySerializer(results, many=True)
     return Response(serializer.data, status=HTTP_200_OK)
 

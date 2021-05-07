@@ -15,10 +15,12 @@ urlpatterns = [
     path('provider-missed-appointments/', views.provider_missed_appointments),
     path('provider-completed-appointments/', views.provider_completed_appointments),
     path('patient-current-offers/', views.patient_current_offers),
+    path('patient-expired-offers/', views.patient_expired_offers),
     path('patient-past-offers/', views.patient_past_offers),
     path('patient-scheduled-appointments/', views.patient_scheduled_appointments),
     path('offer-detail/', views.offer_detail),
     path('cancel-appointment/', views.cancel_appointment),
     path('offer-response/', views.offer_response),
     path('provider-get-summary/', views.provider_get_summary),
+    path('logout/', views.logout),
 ]

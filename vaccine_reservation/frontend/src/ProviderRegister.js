@@ -15,6 +15,7 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import * as Constants from "./Constants.js";
+import {Redirect} from 'react-router-dom';
 
 
 
@@ -26,6 +27,10 @@ function ProviderRegister(props) {
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
     const [email, setEmail] = useState('');
+    const [provider_name, setProvidername] = useState('');
+    const [address, setAddress] = useState('');
+    const [phone, setPhone] = useState('');
+    const [type, setType] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     function handleClose() {
@@ -36,14 +41,22 @@ function ProviderRegister(props) {
     function onSubmit() {
 		const data = {
 			"username" : username,
-			"password1" : password1,
-            "password2" : password2,
-            "email" : email
+			"password" : password1,
+            "email" : email,
+            "provider_name": provider_name,
+            "provider_address": address,
+            "provider_phone": phone,
+            "provider_type": type
     	};
 
-        // check if all fieds are filled
+        // check if all fields are filled
         if (data.username === '') {
             setErrorMessage("Username cannot be empty.");
+            return;
+        }
+
+        if (data.provider_name === '') {
+            setErrorMessage("Provider Name cannot be empty.");
             return;
         }
 
@@ -57,25 +70,39 @@ function ProviderRegister(props) {
             return;
         }
 
+        if (data.address === '') {
+            setErrorMessage("Address cannot be empty.");
+            return;
+        }
+
+        if (data.phone === '') {
+            setErrorMessage("Phone cannot be empty.");
+            return;
+        }
+
+        if (data.type === '') {
+            setErrorMessage("Provider Type cannot be empty.");
+            return;
+        }
+
         // check if password matches
-        if (data.password1 !== data.password2) {
+        if (password1 !== password2) {
             setErrorMessage("Passwords do not match.");
             return;
         }
 
         // check password length and strength
         var hasNumber = /\d/;
-        var password = data.password1;
-        if (password.length < 8 || !hasNumber.test(password)) {
+        if (password1.length < 8 || !hasNumber.test(password1)) {
             setErrorMessage("Password needs to be at least 8 characters long, containing both letters and digits.");
             return;
         }
 
-		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/rest-auth/registration/", data).then(function (response) {
+		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/register-provider/", data).then(function (response) {
 			localStorage.setItem('token', response.data.token);
             console.log(response.data.token);
 		}).then(handleClose).then(props.reload).catch((error) => {
-            if (error.response.status === 400) {
+            if (error.response.status != 201) {
                 setErrorMessage("An error occurred.")
             }
         });;
@@ -124,12 +151,53 @@ function ProviderRegister(props) {
                     />
 	            </FormControl>
 
+                <FormControl mt={4} isRequired>
+	              <FormLabel>Provider Name</FormLabel>
+	              <Input
+                    bg="gray.700"
+                    ref={initialRef}
+                    placeholder="Peppa"
+                    onChange={(e)=>setProvidername(e.target.value)}
+                    />
+	            </FormControl>
+
 				<FormControl mt={4} isRequired>
 	              <FormLabel>Email</FormLabel>
 	              <Input
                     bg="gray.700"
                     placeholder="Email"
                     onChange={(e)=>setEmail(e.target.value)}
+                    />
+	            </FormControl>
+
+
+                <FormControl mt={4} isRequired>
+	              <FormLabel>Address</FormLabel>
+	              <Input
+                    bg="gray.700"
+                    ref={initialRef}
+                    placeholder="Address"
+                    onChange={(e)=>setAddress(e.target.value)}
+                    />
+	            </FormControl>
+
+                <FormControl mt={4} isRequired>
+	              <FormLabel>Phone</FormLabel>
+	              <Input
+                    bg="gray.700"
+                    ref={initialRef}
+                    placeholder="Phone"
+                    onChange={(e)=>setPhone(e.target.value)}
+                    />
+	            </FormControl>
+
+                <FormControl mt={4} isRequired>
+	              <FormLabel>Provider Type</FormLabel>
+	              <Input
+                    bg="gray.700"
+                    ref={initialRef}
+                    placeholder="Hospital/Clinic/Pharmacy"
+                    onChange={(e)=>setType(e.target.value)}
                     />
 	            </FormControl>
                 <Box p={1} color="tomato">

@@ -6,6 +6,7 @@ import * as Constants from "./Constants.js";
 import Login from './Login.js';
 import PatientRegister from './PatientRegister.js';
 import ProviderRegister from './ProviderRegister.js';
+import {Redirect, useHistory} from 'react-router-dom';
 
 
 class Entry extends React.Component {
@@ -17,13 +18,9 @@ class Entry extends React.Component {
 	}
 
 	componentDidMount() {
-		let list = [];
-		axios.get(Constants.BASE_URL + ":" + Constants.PORT + "/list-products/").then((response) => {
-			list = response.data;
-			this.setState({
-				productList: list
-			});
-		});
+		if (localStorage.getItem('token') != null) {
+            // return history.push('/patient-page');
+        }
 	}
 
 	render() {

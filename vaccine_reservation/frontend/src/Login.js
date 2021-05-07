@@ -15,7 +15,7 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import * as Constants from "./Constants.js";
-import {Redirect} from 'react-router-dom';
+import {Redirect, useHistory} from 'react-router-dom';
 
 
 
@@ -27,6 +27,8 @@ function Login(props) {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const history = useHistory();
+
 
     function handleClose() {
         setErrorMessage('');
@@ -40,8 +42,12 @@ function Login(props) {
     	};
 		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/login/", data).then(function (response) {
 			localStorage.setItem('token', response.data.token);
-            return  <Redirect  to="/patient-dashboard/" />
-		}).then(handleClose).then(props.reload).catch((error) => {
+            if (response.data.type === 'patient') {
+                return history.push('/patient-page');
+            } else if (response.data.type === 'provider') {
+                return history.push('/provider-page');
+            }
+		}).then(handleClose).catch((error) => {
             if (error.response.status === 404) {
                 setErrorMessage("Invalid credentials.")
             }

@@ -15,6 +15,7 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import * as Constants from "./Constants.js";
+import {Redirect} from 'react-router-dom';
 
 
 
@@ -127,6 +128,7 @@ function PatientRegister(props) {
 		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/register-patient/", data).then(function (response) {
 			localStorage.setItem('token', response.data.token);
             console.log(response.data.token);
+            return  <Redirect  to="/patient-dashboard/" />
 		}).then(handleClose).then(props.reload).catch((error) => {
             if (error.response.status === 404) {
                 setErrorMessage("An error occurred.")
