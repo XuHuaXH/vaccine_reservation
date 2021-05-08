@@ -171,6 +171,7 @@ function PatientRegister(props) {
 	            <FormControl mt={4} isRequired>
 	              <FormLabel>Password</FormLabel>
 	              <Input
+                    type='password'
                     bg="gray.700"
                     placeholder="Password"
                     onChange={(e)=>setPassword1(e.target.value)}
@@ -180,6 +181,7 @@ function PatientRegister(props) {
 				<FormControl mt={4} isRequired>
 	              <FormLabel>Confirm Password</FormLabel>
 	              <Input
+                    type='password'
                     bg="gray.700"
                     placeholder="Enter your password again"
                     onChange={(e)=>setPassword2(e.target.value)}

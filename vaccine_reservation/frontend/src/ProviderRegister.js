@@ -102,7 +102,7 @@ function ProviderRegister(props) {
 		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/register-provider/", data).then(function (response) {
 			localStorage.setItem('token', response.data.token);
             console.log(response.data.token);
-            window.location = Constants.BASE_URL + ":" + Constants.CLIENT + "/provider-page/";  
+            window.location = Constants.BASE_URL + ":" + Constants.CLIENT + "/provider-page/";
 		}).then(handleClose).then(props.reload).catch((error) => {
             if (error.response.status != 201) {
                 setErrorMessage("An error occurred.")
@@ -138,6 +138,7 @@ function ProviderRegister(props) {
 	            <FormControl mt={4} isRequired>
 	              <FormLabel>Password</FormLabel>
 	              <Input
+                    type='password'
                     bg="gray.700"
                     placeholder="Password"
                     onChange={(e)=>setPassword1(e.target.value)}
@@ -147,6 +148,7 @@ function ProviderRegister(props) {
 				<FormControl mt={4} isRequired>
 	              <FormLabel>Confirm Password</FormLabel>
 	              <Input
+                    type='password'
                     bg="gray.700"
                     placeholder="Enter your password again"
                     onChange={(e)=>setPassword2(e.target.value)}

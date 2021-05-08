@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Entry from './Entry.js';
 import Logout from './Logout.js';
-import OfferDetails from './OfferDetails.js';
+import OfferDetailsForPatients from './OfferDetailsForPatients.js';
 import PatientProfile from './PatientProfile.js';
 import AddAvailability from './AddAvailability.js';
 import axios from 'axios';
@@ -179,7 +179,7 @@ class PatientPage extends React.Component {
 						      <Td>{offer.appointment.timeslot}</Td>
 							  <Td>{offer.expiration_datetime}</Td>
 							  <Td>
-							    <OfferDetails offer={offer}/>
+							    <OfferDetailsForPatients offer={offer}/>
 							  	<Button onClick={() => this.onAccept(offer.id)} colorScheme="blue" mr={3}>
 			  	            	Accept
 			  	            	</Button>
@@ -213,7 +213,7 @@ class PatientPage extends React.Component {
   						      <Td>{offer.appointment.date}</Td>
   						      <Td>{offer.appointment.timeslot}</Td>
 							  <Td>
-							    <OfferDetails offer={offer}/>
+							    <OfferDetailsForPatients offer={offer}/>
 								<Button onClick={() => this.onCancel(offer.id)} colorScheme="red" mr={3}>
 			  	            	Cancel
 			  	            	</Button>

@@ -95,6 +95,7 @@ function Login(props) {
 	            <FormControl mt={4} isRequired>
 	              <FormLabel>Password</FormLabel>
 	              <Input
+                    type='password'
 				  	placeholder="Password"
                     bg="gray.700"
 					onChange={(e)=>setPassword(e.target.value)}

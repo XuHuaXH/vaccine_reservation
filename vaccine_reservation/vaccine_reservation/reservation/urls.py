@@ -25,4 +25,5 @@ urlpatterns = [
     path('logout/', views.logout),
     path('patient-info/', views.patient_info),
     path('provider-info/', views.provider_info),
+    path('provider-appointment-action/', views.provider_appointment_action),
 ]

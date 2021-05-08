@@ -425,3 +425,29 @@ def provider_info(request):
         return Response(data={'message': 'provider-only API'}, status=HTTP_403_FORBIDDEN)
     serializer = ProviderSerializer(provider)
     return Response(serializer.data, status=HTTP_200_OK)
+
+
+@api_view(["POST"])
+def provider_appointment_action(request):
+    try:
+        provider = Provider.objects.get(user=request.user)
+    except Provider.DoesNotExist:
+        return Response(data={'message': 'provider-only API'}, status=HTTP_403_FORBIDDEN)
+
+    action = request.data.get('action')
+    if action is None or (action != 'missed' and action != 'completed'):
+        return Response(status=HTTP_400_BAD_REQUEST)
+
+    try:
+        offer = OfferHistory.objects.get(id=request.data['id'])
+    except OfferHistory.DoesNotExist:
+        return Response(status=HTTP_400_BAD_REQUEST)
+
+    # check ownership of that offer
+    if offer.appointment.provider != provider:
+        return Response(data={'message': 'not your appointment!'}, status=HTTP_403_FORBIDDEN)
+
+    offer.status = action
+    offer.save()
+
+    return Response(status=HTTP_200_OK)

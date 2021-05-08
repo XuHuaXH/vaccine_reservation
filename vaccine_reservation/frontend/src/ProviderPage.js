@@ -3,6 +3,7 @@ import './App.css';
 import Entry from './Entry.js';
 import Logout from './Logout.js';
 import ProviderProfile from './ProviderProfile.js';
+import OfferDetailsForProviders from './OfferDetailsForProviders.js';
 import AddAppointment from './AddAppointment.js';
 import axios from 'axios';
 import * as Constants from "./Constants.js";
@@ -43,6 +44,24 @@ class ProviderPage extends React.Component {
 			appointments: []
 		}
 	}
+
+    onMark(id, action) {
+		const token = localStorage.getItem('token');
+		const header = {
+   			headers: {
+      			Authorization: "Token " + token
+   			}
+		};
+		const data = {
+			"id": id,
+			"action": action
+		}
+		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/provider-appointment-action/", data, header).then((response) => {
+			console.log(response);
+            this.componentDidMount();
+		});
+	}
+
 
 	onLogout = () => {
 		const token = localStorage.getItem('token');
@@ -151,6 +170,9 @@ class ProviderPage extends React.Component {
 					      <Th>Patient Name</Th>
 					      <Th>Appointment Date</Th>
 						  <Th>Appointment Time</Th>
+                          <Th>Mark as</Th>
+                          <Th>Details</Th>
+
 					    </Tr>
 					  </Thead>
 					  <Tbody>
@@ -159,6 +181,14 @@ class ProviderPage extends React.Component {
 							<Td>{appointment.patient.user.first_name} {appointment.patient.user.last_name}</Td>
 							<Td>{appointment.appointment.date}</Td>
 							<Td>{appointment.appointment.timeslot}</Td>
+                            <Td><Button onClick={() => this.onMark(appointment.id, 'completed')} colorScheme="blue" m={3}>
+                            Completed
+                            </Button>
+                            <Button onClick={() => this.onMark(appointment.id, 'missed')} colorScheme="red" m={3}>
+                            Missed
+                            </Button>
+                            </Td>
+                            <Td><OfferDetailsForProviders offer={appointment} /></Td>
 						    </Tr>
 						))}
 					  </Tbody>
@@ -175,6 +205,7 @@ class ProviderPage extends React.Component {
   					      <Th>Patient Name</Th>
   					      <Th>Appointment Date</Th>
   						  <Th>Appointment Time</Th>
+                          <Th>Details</Th>
   					    </Tr>
   					  </Thead>
   					  <Tbody>
@@ -183,6 +214,8 @@ class ProviderPage extends React.Component {
 							<Td>{appointment.patient.user.first_name} {appointment.patient.user.last_name}</Td>
 							<Td>{appointment.appointment.date}</Td>
 							<Td>{appointment.appointment.timeslot}</Td>
+                            <Td><OfferDetailsForProviders
+                            offer={appointment} /></Td>
   						    </Tr>
   						))}
   					  </Tbody>
@@ -198,6 +231,7 @@ class ProviderPage extends React.Component {
   					      <Th>Patient Name</Th>
   					      <Th>Appointment Date</Th>
   						  <Th>Appointment Time</Th>
+                          <Th>Details</Th>
   					    </Tr>
   					  </Thead>
   					  <Tbody>
@@ -206,6 +240,7 @@ class ProviderPage extends React.Component {
 							<Td>{appointment.patient.user.first_name} {appointment.patient.user.last_name}</Td>
 							<Td>{appointment.appointment.date}</Td>
 							<Td>{appointment.appointment.timeslot}</Td>
+                            <Td><OfferDetailsForProviders offer={appointment} /></Td>
   						    </Tr>
   						))}
   					  </Tbody>
@@ -221,6 +256,7 @@ class ProviderPage extends React.Component {
   					      <Th>Patient Name</Th>
   					      <Th>Appointment Date</Th>
   						  <Th>Appointment Time</Th>
+                           <Th>Details</Th>
   					    </Tr>
   					  </Thead>
   					  <Tbody>
@@ -229,6 +265,7 @@ class ProviderPage extends React.Component {
   						      <Td>{appointment.patient.user.first_name} {appointment.patient.user.last_name}</Td>
   						      <Td>{appointment.appointment.date}</Td>
   						      <Td>{appointment.appointment.timeslot}</Td>
+                              <Td><OfferDetailsForProviders offer={appointment} /></Td>
   						    </Tr>
   						))}
   					  </Tbody>
