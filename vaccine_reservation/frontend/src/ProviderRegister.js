@@ -102,7 +102,7 @@ function ProviderRegister(props) {
 		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/register-provider/", data).then(function (response) {
 			localStorage.setItem('token', response.data.token);
             console.log(response.data.token);
-            return(<PageRedirect  to="/provider-page" />);
+            window.location = Constants.BASE_URL + ":" + Constants.CLIENT + "/provider-page/";  
 		}).then(handleClose).then(props.reload).catch((error) => {
             if (error.response.status != 201) {
                 setErrorMessage("An error occurred.")

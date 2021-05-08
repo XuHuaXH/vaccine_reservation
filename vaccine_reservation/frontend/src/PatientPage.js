@@ -79,6 +79,7 @@ class PatientPage extends React.Component {
 		}
 		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/offer-response/", data, header).then((response) => {
 			console.log(response);
+            this.componentDidMount();
 		});
 	}
 

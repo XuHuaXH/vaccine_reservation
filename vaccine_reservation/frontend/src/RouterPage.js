@@ -1,7 +1,5 @@
 import React from 'react';
 import Login from './Login.js';
-import ProductDetails from "./ProductDetails.js";
-import Settings from "./Settings.js";
 import Entry from "./Entry.js";
 import PatientPage from "./PatientPage.js";
 import ProviderPage from "./ProviderPage.js";
@@ -60,7 +58,6 @@ class RouterPage extends React.Component {
                 <Route path="/provider-page">
                     <ProviderPage />
                 </Route>
-                // <Route path="/product/:id" component={ProductDetails} />
               </Switch>
         	</Router>
     	);

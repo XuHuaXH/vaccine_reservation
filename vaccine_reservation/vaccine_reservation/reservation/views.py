@@ -23,7 +23,6 @@ import random
 from datetime import datetime, timezone
 
 
-@csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_patient(request):
@@ -51,7 +50,6 @@ def register_patient(request):
     return Response({'token': token.key}, status=status.HTTP_201_CREATED)
 
 
-@csrf_exempt
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_provider(request):
@@ -79,7 +77,6 @@ def register_provider(request):
     return Response({'token': token.key}, status=status.HTTP_201_CREATED)
 
 
-@csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def login(request):
@@ -111,7 +108,6 @@ def logout(request):
     return Response(status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def get_availability(request):
     try:
@@ -123,7 +119,6 @@ def get_availability(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["POST"])
 def add_availability(request):
     try:
@@ -147,7 +142,6 @@ def add_availability(request):
     return Response(status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["DELETE"])
 def delete_availability(request):
     try:
@@ -169,7 +163,6 @@ def delete_availability(request):
     return Response(status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def get_appointments(request):
     try:
@@ -181,7 +174,6 @@ def get_appointments(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["POST"])
 def add_appointment(request):
     try:
@@ -196,7 +188,6 @@ def add_appointment(request):
     return Response(status=HTTP_201_CREATED)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def provider_scheduled_appointments(request):
     try:
@@ -210,7 +201,6 @@ def provider_scheduled_appointments(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def provider_cancelled_appointments(request):
     try:
@@ -224,7 +214,6 @@ def provider_cancelled_appointments(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def provider_missed_appointments(request):
     try:
@@ -238,7 +227,6 @@ def provider_missed_appointments(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def provider_completed_appointments(request):
     try:
@@ -252,7 +240,6 @@ def provider_completed_appointments(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def patient_current_offers(request):
     try:
@@ -266,7 +253,6 @@ def patient_current_offers(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def patient_expired_offers(request):
     try:
@@ -280,7 +266,6 @@ def patient_expired_offers(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def patient_past_offers(request):
     try:
@@ -294,7 +279,6 @@ def patient_past_offers(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def patient_scheduled_appointments(request):
     try:
@@ -308,7 +292,6 @@ def patient_scheduled_appointments(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def offer_detail(request):
     try:
@@ -328,7 +311,6 @@ def offer_detail(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["POST"])
 def cancel_appointment(request):
     try:
@@ -356,7 +338,6 @@ def cancel_appointment(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["POST"])
 def offer_response(request):
     try:
@@ -393,7 +374,6 @@ def offer_response(request):
         return Response(status=HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def provider_get_summary(request):
     try:
@@ -427,7 +407,6 @@ def provider_get_summary(request):
     return Response(data=data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def patient_info(request):
     try:
@@ -438,7 +417,6 @@ def patient_info(request):
     return Response(serializer.data, status=HTTP_200_OK)
 
 
-@csrf_exempt
 @api_view(["GET"])
 def provider_info(request):
     try:

@@ -55,7 +55,6 @@ class ProviderPage extends React.Component {
 	}
 
     componentDidMount = () => {
-		let list = [];
 		const token = localStorage.getItem('token');
 		const config = {
    			headers: {

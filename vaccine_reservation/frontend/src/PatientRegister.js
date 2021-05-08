@@ -121,15 +121,21 @@ function PatientRegister(props) {
         }
 
         // check other fields
-        if (!Number.isInteger(parseInt(max_distance)) || parseInt(max_distance) <= 0) {
-            setErrorMessage("Max Distance must be a positive integer");
+        const dateFormat = /^\d{4}\-\d{2}\-\d{2}$/;
+        if (!dateFormat.test(data.dob)) {
+            setErrorMessage("Date of Birth format must be YYYY-MM-DD");
+            return;
+        }
+
+        if (!Number.isInteger(Number(data.max_distance)) || data.max_distance <= 0) {
+            setErrorMessage("Max Distance must be a positive integer.");
             return;
         }
 
 		axios.post(Constants.BASE_URL + ":" + Constants.PORT + "/register-patient/", data).then(function (response) {
 			localStorage.setItem('token', response.data.token);
             console.log(response.data.token);
-            return(<PageRedirect  to="/patient-page" />);
+            window.location = Constants.BASE_URL + ":" + Constants.CLIENT + "/patient-page/";
 		}).then(handleClose).then(props.reload).catch((error) => {
             if (error.response.status === 404) {
                 setErrorMessage("An error occurred.")
