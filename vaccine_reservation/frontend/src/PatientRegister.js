@@ -57,52 +57,52 @@ function PatientRegister(props) {
     	};
 
         // check if all fields are filled
-        if (data.username === '') {
+        if (username === '') {
             setErrorMessage("Username cannot be empty.");
             return;
         }
 
-        if (data.first_name === '') {
+        if (first_name === '') {
             setErrorMessage("First Name cannot be empty.");
             return;
         }
 
-        if (data.last_name === '') {
+        if (last_name === '') {
             setErrorMessage("Last Name cannot be empty.");
             return;
         }
 
-        if (data.password1 === '' || data.password2 === '') {
+        if (password1 === '' || password2 === '') {
             setErrorMessage("Password cannot be empty.");
             return;
         }
 
-        if (data.email === '') {
+        if (email === '') {
             setErrorMessage("Email cannot be empty.");
             return;
         }
 
-        if (data.ssn === '') {
+        if (ssn === '') {
             setErrorMessage("SSN cannot be empty.");
             return;
         }
 
-        if (data.dob === '') {
+        if (dob === '') {
             setErrorMessage("dob cannot be empty.");
             return;
         }
 
-        if (data.address === '') {
+        if (address === '') {
             setErrorMessage("Address cannot be empty.");
             return;
         }
 
-        if (data.phone === '') {
+        if (phone === '') {
             setErrorMessage("Phone cannot be empty.");
             return;
         }
 
-        if (data.max_distance === '') {
+        if (max_distance === '') {
             setErrorMessage("Max Distance cannot be empty.");
             return;
         }
@@ -122,12 +122,12 @@ function PatientRegister(props) {
 
         // check other fields
         const dateFormat = /^\d{4}\-\d{2}\-\d{2}$/;
-        if (!dateFormat.test(data.dob)) {
+        if (!dateFormat.test(dob)) {
             setErrorMessage("Date of Birth format must be YYYY-MM-DD");
             return;
         }
 
-        if (!Number.isInteger(Number(data.max_distance)) || data.max_distance <= 0) {
+        if (!Number.isInteger(Number(max_distance)) || max_distance <= 0) {
             setErrorMessage("Max Distance must be a positive integer.");
             return;
         }

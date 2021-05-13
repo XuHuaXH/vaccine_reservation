@@ -139,8 +139,6 @@ class FFSolver:
                 # put the results in self.matchings
                 if key in self.patient_ids and val in self.appointment_ids and self.flow_graph[key][val] > 0:
                     self.matchings.append((key, val))
-                # print('(' + str(key) + ', ' + str(val) + ') : ' +
-                #       str(self.flow_graph[key][val]))
 
         return max_flow
 

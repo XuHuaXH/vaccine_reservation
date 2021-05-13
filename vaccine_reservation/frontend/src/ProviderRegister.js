@@ -51,37 +51,37 @@ function ProviderRegister(props) {
     	};
 
         // check if all fields are filled
-        if (data.username === '') {
+        if (username === '') {
             setErrorMessage("Username cannot be empty.");
             return;
         }
 
-        if (data.provider_name === '') {
+        if (provider_name === '') {
             setErrorMessage("Provider Name cannot be empty.");
             return;
         }
 
-        if (data.password1 === '' || data.password2 === '') {
+        if (password1 === '' || password2 === '') {
             setErrorMessage("Password cannot be empty.");
             return;
         }
 
-        if (data.email === '') {
+        if (email === '') {
             setErrorMessage("Email cannot be empty.");
             return;
         }
 
-        if (data.address === '') {
+        if (address === '') {
             setErrorMessage("Address cannot be empty.");
             return;
         }
 
-        if (data.phone === '') {
+        if (phone === '') {
             setErrorMessage("Phone cannot be empty.");
             return;
         }
 
-        if (data.type === '') {
+        if (type === '') {
             setErrorMessage("Provider Type cannot be empty.");
             return;
         }

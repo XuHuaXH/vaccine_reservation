@@ -4,7 +4,7 @@ from reservation.generate_data import *
 
 
 class Command(BaseCommand):
-    help = 'Closes the specified poll for voting'
+    help = 'Generate some test data to test the matching algorithm!'
 
     def add_arguments(self, parser):
         # parser.add_argument('poll_ids', nargs='+', type=int)
@@ -13,4 +13,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         generate_patients(300)
         generate_providers(20)
-        self.stdout.write(self.style.SUCCESS('Successfully generated some data!'))
+        self.stdout.write(self.style.SUCCESS('Successfully generated some test data!'))

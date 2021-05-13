@@ -24,9 +24,9 @@ def rand_date(start, end):
 
 def generate_patients(count):
     for i in range(count):
-        username = 'test-' + rand_char(20)
+        username = 'test-patient-' + rand_char(20)
         email = rand_char(10) + '@' + rand_char(10) + '.com'
-        password = rand_char(30)
+        password = 'hehe1234'
         first_name = rand_char(10)
         last_name = rand_char(10)
 
@@ -68,9 +68,9 @@ def generate_patients(count):
 
 def generate_providers(count):
     for i in range(count):
-        username = 'test-' + rand_char(20)
+        username = 'test-provider-' + rand_char(20)
         email = rand_char(10) + '@' + rand_char(10) + '.com'
-        password = rand_char(30)
+        password = 'hehe1234'
 
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
