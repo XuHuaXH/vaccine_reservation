@@ -41,7 +41,7 @@ def generate_patients(count):
         max_distance = random.randint(30, 100)
         priority = PriorityGroup.objects.get(priority=random.randint(1, 2))
 
-        # generate random geo coordinates ;)
+        # generate random geo coordinates for now
         long_min = -75.64535551802206
         long_max = -71.86605890041902
         lat_min = 38.974489
@@ -53,7 +53,7 @@ def generate_patients(count):
                           patient_long=long, patient_phone=phone, max_distance=max_distance, priority=priority)
         patient.save()
 
-        # generate the availabilities
+        # generate random availabilities
         num_of_availabilities = random.randint(2, 15)
         record = set(())
         for j in range(num_of_availabilities):
@@ -80,7 +80,7 @@ def generate_providers(count):
         address = rand_char(20)
         phone = rand_char(20)
 
-        # generate random geo coordinates ;)
+        # generate random geo coordinates for now
         long_min = -75.64535551802206
         long_max = -71.86605890041902
         lat_min = 38.974489

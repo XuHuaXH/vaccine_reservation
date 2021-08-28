@@ -37,7 +37,7 @@ def register_patient(request):
     if not patient_serializer.is_valid():
         return Response(data=patient_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # generate random geo coordinates ;)
+    # generate random geo coordinates for now
     long_min = -75.64535551802206
     long_max = -71.86605890041902
     lat_min = 38.974489
@@ -64,7 +64,7 @@ def register_provider(request):
     if not provider_serializer.is_valid():
         return Response(data=provider_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # generate random geo coordinates ;)
+    # generate random geo coordinates for now
     long_min = -75.64535551802206
     long_max = -71.86605890041902
     lat_min = 38.974489

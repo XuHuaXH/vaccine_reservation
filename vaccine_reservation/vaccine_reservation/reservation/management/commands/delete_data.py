@@ -7,7 +7,6 @@ class Command(BaseCommand):
     help = 'delete all the test data'
 
     def add_arguments(self, parser):
-        # parser.add_argument('poll_ids', nargs='+', type=int)
         pass
 
     def handle(self, *args, **options):
