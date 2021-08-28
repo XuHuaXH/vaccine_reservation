@@ -1,4 +1,4 @@
-# vaccine_reservation
+# Vaccine Reservation System
 
 A vaccine reservation system for patients and medical providers built with [Django REST framework](https://www.django-rest-framework.org) and [React](https://reactjs.org). The frontend uses components from [Chakra UI](https://chakra-ui.com).
 
