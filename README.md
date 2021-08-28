@@ -12,7 +12,7 @@ Functionalities:
  - Patients can enter their availabilities for vaccines after they register:
 
 ![Optional Text](../main/README_images/patient_availabilities.png)
-![Optional Text](../main/README_images/patient_availabilities.png)
+![Optional Text](../main/README_images/patient_availabilities2.png)
 
 - Providers can enter available appointments and maximum capacity for that time slot:
 
